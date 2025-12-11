@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Tarefas Acessível</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link"
+      >Pular para o conteúdo principal</a
+    >
+
+    <main id="main-content">
+      <h1>Lista de Tarefas Acessível</h1>
+
+      <form method="POST" action="{{ url_for('adicionar') }}">
+        <label for="titulo-tarefa">Nova Tarefa:</label>
+        <input
+          type="text"
+          id="titulo-tarefa"
+          name="titulo"
+          required
+          aria-required="true"
+          placeholder="Ex: Estudar WCAG"
+        />
+        <button type="submit">Adicionar</button>
+      </form>
+
+      <hr />
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <ul role="alert">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+
+      <ul>
+        {% for tarefa in tarefas %}
+        <li>
+          <span class="{{ 'tarefa-concluida' if tarefa.concluida else '' }}">
+            {{ tarefa.titulo }}
+          </span>
+
+          <form
+            class="inline-form"
+            method="POST"
+            action="{{ url_for('alternar', tarefa_id=tarefa.id) }}"
+          >
+            <button type="submit">
+              {{ 'Desmarcar' if tarefa.concluida else 'Marcar como Concluída' }}
+            </button>
+          </form>
+
+          <form
+            class="inline-form"
+            method="POST"
+            action="{{ url_for('deletar', tarefa_id=tarefa.id) }}"
+          >
+            <button
+              type="submit"
+              aria-label="Deletar tarefa: {{ tarefa.titulo }}"
+            >
+              Deletar
+            </button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </main>
+  </body>
+</html>

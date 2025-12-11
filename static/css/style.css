@@ -1,0 +1,57 @@
+/* style.css */
+
+/* WCAG 2.2 AA: Garante Contraste de Cores adequado */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333; /* Contraste alto com background claro */
+}
+
+/* WCAG: Link de pular conteúdo deve ser visível ao Foco (para navegação por teclado) */
+.skip-link {
+  position: absolute;
+  top: -40px; /* Esconde o link por padrão */
+  left: 0;
+  background: #007bff;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0; /* Torna-se visível ao receber foco via TAB */
+  outline: 3px solid #ffcc00; /* Foco Visível e Contraste Alto (WCAG) */
+}
+
+/* WCAG: Foco visível para todos os elementos interativos (Operável) */
+button:focus,
+input[type="text"]:focus,
+input[type="checkbox"]:focus {
+  outline: 3px solid #0056b3;
+  outline-offset: 2px;
+}
+
+.tarefa-concluida {
+  text-decoration: line-through;
+  color: #777;
+}
+
+/* style.css (Nova regra para garantir foco em formulários inline) */
+.inline-form {
+  /* O inline-block é mais robusto que o inline puro para contêineres de foco */
+  display: inline-block;
+  margin-left: 10px; /* Apenas para espaçamento */
+}
+
+ul {
+  list-style: none; /* Remove os marcadores de lista */
+  padding: 0;
+}
+
+li {
+  display: flex; /* Garante que os filhos (span, form) sejam tratados como blocos em linha */
+  align-items: center; /* Alinha verticalmente o texto e os botões */
+  margin-bottom: 10px;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
