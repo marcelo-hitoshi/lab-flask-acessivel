@@ -1,57 +1,166 @@
-/* style.css */
-
-/* WCAG 2.2 AA: Garante Contraste de Cores adequado */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
-  color: #333; /* Contraste alto com background claro */
+/* Paleta de Cores: Teal, Cinza Claro, Azul Escuro */
+:root {
+  --color-primary: #008080; /* Teal/Verde Água Principal */
+  --color-secondary: #f4f4f4; /* Fundo de Cartão/Corpo */
+  --color-text: #333; /* Texto Principal */
+  --color-light-gray: #ccc; /* Linhas/Bordas */
 }
 
-/* WCAG: Link de pular conteúdo deve ser visível ao Foco (para navegação por teclado) */
+/* === Estilos Globais e Reset === */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+/* === WCAG/Acessibilidade (Manutenção das Regras Cruciais) === */
+button:focus,
+input[type="text"]:focus {
+  /* Mantém o foco de alto contraste */
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .skip-link {
+  /* Mantém a regra de acessibilidade */
   position: absolute;
-  top: -40px; /* Esconde o link por padrão */
+  top: -999px;
   left: 0;
-  background: #007bff;
-  color: white;
-  padding: 8px;
   z-index: 100;
 }
 
 .skip-link:focus {
-  top: 0; /* Torna-se visível ao receber foco via TAB */
-  outline: 3px solid #ffcc00; /* Foco Visível e Contraste Alto (WCAG) */
+  top: 10px;
+  left: 10px;
+  padding: 10px;
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
 }
 
-/* WCAG: Foco visível para todos os elementos interativos (Operável) */
-button:focus,
-input[type="text"]:focus,
-input[type="checkbox"]:focus {
-  outline: 3px solid #0056b3;
-  outline-offset: 2px;
+/* === Container Principal (Cartão Central) === */
+.container {
+  width: 100%;
+  max-width: 700px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px; /* Cantos arredondados */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave para efeito de cartão */
 }
 
-.tarefa-concluida {
-  text-decoration: line-through;
-  color: #777;
+/* 1. O FORMULÁRIO (#form-nova-tarefa) é o CONTAINER */
+#form-nova-tarefa {
+  display: flex; /* ATIVAR o Flexbox. Padrão: side-by-side (row) */
+  align-items: center; /* Opcional: Centraliza o botão e o input verticalmente */
+
+  margin-bottom: 30px;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 8px;
+  padding: 8px;
 }
 
-/* style.css (Nova regra para garantir foco em formulários inline) */
-.inline-form {
-  /* O inline-block é mais robusto que o inline puro para contêineres de foco */
-  display: inline-block;
-  margin-left: 10px; /* Apenas para espaçamento */
+/* 2. O INPUT é o ITEM que deve CRESCER (empurrar) */
+#form-nova-tarefa input[type="text"] {
+  flex-basis: 100%;
+  padding: 10px;
+  border: none; /* Garante que o input não tenha bordas que somem à largura */
+  font-size: 1em;
+  margin-right: 10px;
 }
 
+#form-nova-tarefa button {
+  margin-left: auto;
+}
+
+/* 3. O BOTÃO é o ITEM que tem largura FIXA (não precisa de regra especial) */
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  font-size: 1em;
+}
+
+/* === Botões e Inputs === */
+button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #006666; /* Tom mais escuro no hover */
+}
+
+/* === Lista de Tarefas (Cards Individuais) === */
 ul {
-  list-style: none; /* Remove os marcadores de lista */
+  list-style: none;
   padding: 0;
 }
 
 li {
-  display: flex; /* Garante que os filhos (span, form) sejam tratados como blocos em linha */
-  align-items: center; /* Alinha verticalmente o texto e os botões */
-  margin-bottom: 10px;
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
+  /* Mantém o display flex para a correção WCAG de fluxo de foco */
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--color-secondary); /* Fundo cinza suave para itens */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Sombra leve para efeito 3D */
+  transition: box-shadow 0.2s;
+}
+
+li:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra maior no hover */
+}
+
+/* Garante que o span (título) ocupe o espaço e não interfira no foco dos botões */
+li span {
+  margin-right: auto;
+  padding-right: 15px;
+  font-size: 1.1em;
+}
+
+/* === Estilos para Formulários e Botões na Lista === */
+.inline-form {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+/* Botões de Ação na Lista (Menores) */
+li button {
+  padding: 8px 12px;
+  font-size: 0.9em;
+  background-color: #777; /* Cor neutra para ações */
+}
+
+li button:hover {
+  background-color: #555;
+}
+
+/* === Feature: Estilo de Tarefas Concluídas === */
+.concluida {
+  background-color: #e0f2f2; /* Fundo mais claro/esverdeado */
+  opacity: 0.8;
+}
+
+.concluida span {
+  text-decoration: line-through;
+  color: #888;
 }
