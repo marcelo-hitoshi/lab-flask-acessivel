@@ -14,65 +14,65 @@
       >Pular para o conteúdo principal</a
     >
 
-    <main id="main-content">
-      <h1>Lista de Tarefas Acessível</h1>
+    <div class="container">
+      <main id="main-content">
+        <h1>Lista de Tarefas Acessível</h1>
 
-      <form method="POST" action="{{ url_for('adicionar') }}">
-        <label for="titulo-tarefa">Nova Tarefa:</label>
-        <input
-          type="text"
-          id="titulo-tarefa"
-          name="titulo"
-          required
-          aria-required="true"
-          placeholder="Ex: Estudar WCAG"
-        />
-        <button type="submit">Adicionar</button>
-      </form>
+        <form method="POST" action="{{ url_for('adicionar') }}">
+          <label for="titulo-tarefa">Nova Tarefa:</label>
+          <input
+            type="text"
+            id="titulo-tarefa"
+            name="titulo"
+            required
+            aria-required="true"
+            placeholder="Ex: Estudar WCAG"
+          />
+          <button type="submit">Adicionar</button>
+        </form>
 
-      <hr />
+        <hr />
 
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %}
-      <ul role="alert">
-        {% for category, message in messages %}
-        <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %} {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %}
+        <ul role="alert">
+          {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
 
-      <ul>
-        {% for tarefa in tarefas %}
-        <li>
-          <span class="{{ 'tarefa-concluida' if tarefa.concluida else '' }}">
-            {{ tarefa.titulo }}
-          </span>
+        <ul style="list-style: none; padding: 0">
+          {% for tarefa in tarefas %}
+          <li class="{% if tarefa.concluida %}concluida{% endif %}">
+            <span>{{ tarefa.titulo }}</span>
 
-          <form
-            class="inline-form"
-            method="POST"
-            action="{{ url_for('alternar', tarefa_id=tarefa.id) }}"
-          >
-            <button type="submit">
-              {{ 'Desmarcar' if tarefa.concluida else 'Marcar como Concluída' }}
-            </button>
-          </form>
-
-          <form
-            class="inline-form"
-            method="POST"
-            action="{{ url_for('deletar', tarefa_id=tarefa.id) }}"
-          >
-            <button
-              type="submit"
-              aria-label="Deletar tarefa: {{ tarefa.titulo }}"
+            <form
+              class="inline-form"
+              method="POST"
+              action="{{ url_for('alternar', tarefa_id=tarefa.id) }}"
             >
-              Deletar
-            </button>
-          </form>
-        </li>
-        {% endfor %}
-      </ul>
-    </main>
+              <button type="submit">
+                {{ 'Desmarcar' if tarefa.concluida else 'Concluir' }}
+              </button>
+            </form>
+
+            <form
+              class="inline-form"
+              method="POST"
+              action="{{ url_for('deletar', tarefa_id=tarefa.id) }}"
+            >
+              <button
+                type="submit"
+                aria-label="Deletar tarefa: {{ tarefa.titulo }}"
+              >
+                Deletar
+              </button>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+      </main>
+    </div>
   </body>
 </html>
